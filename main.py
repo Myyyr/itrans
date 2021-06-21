@@ -69,7 +69,20 @@ print('==> Building model..')
 # net = ShuffleNetV2(1)
 # net = EfficientNetB0()
 # net = RegNetX_200MF()
-net = SimpleDLA() # --->  tmux cifcnn
+# net = SimpleDLA() # --->  tmux cifcnn ; gpu:0
+net = ViT(image_size=32, 
+    patch_size=16, 
+    num_classes=10, 
+    dim=128, 
+    depth=12, 
+    heads=8, 
+    mlp_dim=256, 
+    pool = 'cls', 
+    channels = 3, 
+    dim_head = 64, 
+    dropout = 0.1, 
+    emb_dropout = 0.1
+) # --->  tmux cifvit ; gpu:0
 
 
 net = net.to(device)
