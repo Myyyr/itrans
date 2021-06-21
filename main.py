@@ -71,7 +71,7 @@ print('==> Building model..')
 # net = RegNetX_200MF()
 # net = SimpleDLA() # --->  tmux cifcnn ; gpu:0
 net = ViT(image_size=32, 
-    patch_size=16, 
+    patch_size=8, 
     num_classes=10, 
     dim=128, 
     depth=12, 
