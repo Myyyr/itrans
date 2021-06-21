@@ -71,10 +71,10 @@ class Transformer(nn.Module):
         self.layers = nn.ModuleList([])
         for _ in range(depth):
             attn = rv.ReversibleBlock(PreNorm(dim//2, Attention(dim//2, heads = heads//2, dim_head = dim_head//2, dropout = dropout)), 
-                                    PreNorm(dim//2, Attention(dim//2, heads = heads//2, dim_head = dim_head//2, dropout = dropout)))
+                                    PreNorm(dim//2, Attention(dim//2, heads = heads//2, dim_head = dim_head//2, dropout = dropout)), split_along_dim=2)
             self.layers.append(attn)
             ff = rv.ReversibleBlock(PreNorm(dim//2, FeedForward(dim//2, mlp_dim//2, dropout = dropout)),
-                                    PreNorm(dim//2, FeedForward(dim//2, mlp_dim//2, dropout = dropout)))
+                                    PreNorm(dim//2, FeedForward(dim//2, mlp_dim//2, dropout = dropout)), split_along_dim=2)
             self.layers.append(ff)
 
         self.layers = rv.ReversibleSequence(self.layers)
