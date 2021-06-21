@@ -75,7 +75,7 @@ print("SimpleDLA : ", sum(p.numel() for p in net.parameters()))
 net = iViT(image_size=32, 
     patch_size=16, 
     num_classes=10, 
-    dim=256*2, 
+    dim=256, 
     depth=24, 
     heads=8, 
     mlp_dim=512, 
@@ -100,7 +100,7 @@ net = ViT(image_size=32,
     dropout = 0.1, 
     emb_dropout = 0.1
 ) # --->  tmux cifivit ; gpu:0
-print("ViT : ", sum(p.numel() for p in net.parameters()))
+print(" ViT : ", sum(p.numel() for p in net.parameters()))
 
 exit(0)
 
