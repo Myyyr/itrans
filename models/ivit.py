@@ -80,7 +80,7 @@ class Transformer(nn.Module):
         self.layers = rv.ReversibleSequence(self.layers)
 
     def forward(self, x):
-        print(x.shape)
+        # print(x.shape)
         x = self.layers(x)
         return x
 
