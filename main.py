@@ -88,6 +88,13 @@ optimizer = optim.SGD(net.parameters(), lr=args.lr,
                       momentum=0.9, weight_decay=5e-4)
 scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200)
 
+def convert_bytes(size):
+    for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
+        if size < 1024.0:
+            return "%3.2f %s" % (size, x)
+        size /= 1024.0
+    return size
+
 
 # Training
 def train(epoch):
@@ -109,8 +116,8 @@ def train(epoch):
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
 
-        progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
-                     % (train_loss/(batch_idx+1), 100.*correct/total, correct, total))
+        progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d) | Mem:%s'
+                     % (train_loss/(batch_idx+1), 100.*correct/total, correct, total, convert_bytes(torch.cuda.max_memory_allocated())))
 
 
 def test(epoch):
@@ -130,8 +137,8 @@ def test(epoch):
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
 
-            progress_bar(batch_idx, len(testloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
-                         % (test_loss/(batch_idx+1), 100.*correct/total, correct, total))
+            progress_bar(batch_idx, len(testloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d) | Mem:%s'
+                         % (test_loss/(batch_idx+1), 100.*correct/total, correct, total, convert_bytes(torch.cuda.max_memory_allocated())))
 
     # Save checkpoint.
     acc = 100.*correct/total
@@ -141,6 +148,7 @@ def test(epoch):
             'net': net.state_dict(),
             'acc': acc,
             'epoch': epoch,
+            'max_memory': convert_bytes(torch.cuda.max_memory_allocated())
         }
         if not os.path.isdir('checkpoint'):
             os.mkdir('checkpoint')
