@@ -21,6 +21,7 @@ parser.add_argument('--resume', '-r', action='store_true',
                     help='resume from checkpoint')
 args = parser.parse_args()
 
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 best_acc = 0  # best test accuracy
 start_epoch = 0  # start from epoch 0 or last checkpoint epoch
@@ -68,7 +69,9 @@ print('==> Building model..')
 # net = ShuffleNetV2(1)
 # net = EfficientNetB0()
 # net = RegNetX_200MF()
-net = SimpleDLA()
+net = SimpleDLA() # --->  tmux cnn
+
+
 net = net.to(device)
 if device == 'cuda':
     net = torch.nn.DataParallel(net)
