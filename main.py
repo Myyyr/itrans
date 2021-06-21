@@ -69,7 +69,7 @@ print('==> Building model..')
 # net = ShuffleNetV2(1)
 # net = EfficientNetB0()
 # net = RegNetX_200MF()
-net = SimpleDLA() # --->  tmux cnn
+net = SimpleDLA() # --->  tmux cifcnn
 
 
 net = net.to(device)
